@@ -171,6 +171,7 @@ public:
   class Properties {
   private:
     std::unordered_map<std::string, Property*> m_map;
+    std::unordered_map<std::string, Property *> m_dbMap;
     std::list<Property*> m_list;
   public:
 
@@ -194,6 +195,14 @@ public:
       return m_map;
     }
 
+    /** Get properties as unordered map for random access.
+      * @return reference to std::unordered_map of std::string to &id:oatpp::data::mapping::type::BaseObject::Property;*.
+      */
+    const std::unordered_map<std::string, Property *> &getDbMap() const
+    {
+      return m_dbMap;
+    }
+
     /**
      * Get properties in ordered way.
      * @return std::list of &id:oatpp::data::mapping::type::BaseObject::Property;*.
@@ -201,7 +210,24 @@ public:
     const std::list<Property*>& getList() const {
       return m_list;
     }
-
+  private:
+    std::string camelToUnderscore(const std::string &camelCase)
+    {
+      std::string underscoreCase;
+      for (auto c : camelCase)
+      {
+        if (std::isupper(c))
+        {
+          underscoreCase += '_';
+          underscoreCase += std::tolower(c);
+        }
+        else
+        {
+          underscoreCase += c;
+        }
+      }
+      return underscoreCase;
+    }
   };
 
 private:

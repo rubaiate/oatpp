@@ -58,12 +58,14 @@ void* BaseObject::getBasePointer() const {
 
 BaseObject::Property* BaseObject::Properties::pushBack(Property* property) {
   m_map.insert({property->name, property});
+  m_dbMap.insert({camelToUnderscore(property->name), property});
   m_list.push_back(property);
   return property;
 }
 
 void BaseObject::Properties::pushFrontAll(Properties* properties) {
   m_map.insert(properties->m_map.begin(), properties->m_map.end());
+  m_dbMap.insert(properties->m_dbMap.begin(), properties->m_dbMap.end());
   m_list.insert(m_list.begin(), properties->m_list.begin(), properties->m_list.end());
 }
 
